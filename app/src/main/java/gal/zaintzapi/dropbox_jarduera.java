@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class dropbox_jarduera extends Activity {
@@ -28,8 +29,6 @@ public class dropbox_jarduera extends Activity {
     private DropboxAPI<AndroidAuthSession> mApi;
     private Button bttn_ver_info;
 
-    String fitxategi="2014-12-28_15.04.31.jpg";
-    File file = new File(fitxategi);
     String accessToken="";
 
 
@@ -100,10 +99,14 @@ public class dropbox_jarduera extends Activity {
                 // Required to complete auth, sets the access token on the session
                 mApi.getSession().finishAuthentication();
 
-                accessToken = mApi.getSession().getOAuth2AccessToken();
-                ver_info();
+                //accessToken = mApi.getSession().getOAuth2AccessToken();
+                bajar_todo();
             } catch (IllegalStateException e) {
                 Log.i("DbAuthLog", "Error authenticating", e);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (DropboxException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -111,6 +114,8 @@ public class dropbox_jarduera extends Activity {
     private void ver_info() {
         if (accessToken != "") {
             try {
+                String fitxategi="/prueba.txt";
+                File file = new File(fitxategi);
                 FileOutputStream outputStream = new FileOutputStream(file);
                 DropboxAPI.DropboxFileInfo info = mApi.getFile(fitxategi, null, outputStream, null);
                 Log.i("ExampleLog", "The file's rev is: " + info.getMetadata().rev);
@@ -125,9 +130,25 @@ public class dropbox_jarduera extends Activity {
     }
 
     private void subir() throws FileNotFoundException, DropboxException {
-        File file = new File("working-draft.txt");
+        File file = new File("/data/data/weka.log");
         FileInputStream inputStream = new FileInputStream(file);
         DropboxAPI.Entry response = mApi.putFile("/magnum-opus.txt", inputStream, file.length(), null, null);
         Log.i("DbExampleLog", "The uploaded file's rev is: " + response.rev);
+    }
+
+    private String[] bajar_todo() throws FileNotFoundException, DropboxException {
+        String[] fnames = null;
+        DropboxAPI.Entry dirent = mApi.metadata("/", 1000, null, true, null);
+        ArrayList<DropboxAPI.Entry> files = new ArrayList<DropboxAPI.Entry>();
+        ArrayList<String> dir = new ArrayList<String>();
+        int i=0;
+        for (DropboxAPI.Entry ent : dirent.contents) {
+            files.add(ent);// Add it to the list of thumbs we can choose from
+            //dir = new ArrayList<String>();
+            dir.add(new String(files.get(i++).path));
+        }
+        fnames = dir.toArray(new String[dir.size()]);
+
+        return fnames;
     }
 }
