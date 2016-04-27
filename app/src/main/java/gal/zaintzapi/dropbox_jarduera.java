@@ -138,7 +138,9 @@ public class dropbox_jarduera extends Activity {
 
     private String[] bajar_todo() throws FileNotFoundException, DropboxException {
         String[] fnames = null;
-        DropboxAPI.Entry dirent = mApi.metadata("/", 1000, null, true, null);
+        DropboxAPI.Entry dirent=null;
+        llamada_ws llamada=new llamada_ws(this,mApi);
+
         ArrayList<DropboxAPI.Entry> files = new ArrayList<DropboxAPI.Entry>();
         ArrayList<String> dir = new ArrayList<String>();
         int i=0;

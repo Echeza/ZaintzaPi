@@ -5,6 +5,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.Session;
 
@@ -24,10 +25,10 @@ public class llamada_ws extends Activity{
     public boolean terminada=false;
     private boolean correcta=false;
     public Exception excepcion=null;
-    private DropboxAPI<Session> mApi;
+    private DropboxAPI<AndroidAuthSession> mApi;
 
 
-    public llamada_ws(Activity act,DropboxAPI<Session> mApi)  {
+    public llamada_ws(Activity act, DropboxAPI<AndroidAuthSession> mApi)  {
         this.mApi=mApi;
         if (Build.VERSION.SDK_INT >= 20)
             new llamada_ws_tarea().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -73,16 +74,16 @@ public class llamada_ws extends Activity{
 
         @Override
         protected Object doInBackground(String... params) {
-            DropboxAPI.Account cuenta=null;
+            DropboxAPI.Entry dirent = null;
             try {
-                cuenta =  mApi.accountInfo();
+                dirent = mApi.metadata("/", 1000, null, true, null);
             } catch (DropboxException e) {
                 e.printStackTrace();
             }
             correcta=true;
             terminada=true;
-            resultado=cuenta;
-            return cuenta;
+            resultado=dirent;
+            return dirent;
 
         }
         protected void onPostExecute(String result) {
