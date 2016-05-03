@@ -140,13 +140,12 @@ public class dropbox_jarduera extends Activity {
         String[] fnames = null;
         DropboxAPI.Entry dirent=null;
         llamada_ws llamada=new llamada_ws(this,mApi);
-
+        dirent=llamada.getResultado();
         ArrayList<DropboxAPI.Entry> files = new ArrayList<DropboxAPI.Entry>();
         ArrayList<String> dir = new ArrayList<String>();
         int i=0;
         for (DropboxAPI.Entry ent : dirent.contents) {
-            files.add(ent);// Add it to the list of thumbs we can choose from
-            //dir = new ArrayList<String>();
+            files.add(ent);
             dir.add(new String(files.get(i++).path));
         }
         fnames = dir.toArray(new String[dir.size()]);

@@ -21,7 +21,7 @@ import static java.util.Collections.emptyList;
 
 public class llamada_ws extends Activity{
 
-    private Object resultado;
+    private DropboxAPI.Entry resultado;
     public boolean terminada=false;
     private boolean correcta=false;
     public Exception excepcion=null;
@@ -48,12 +48,12 @@ public class llamada_ws extends Activity{
 
     }
 
-    public Object getResultado() {
+    public DropboxAPI.Entry getResultado() {
 
         return resultado;
     }
 
-    public void setResultado(Object resultado) {
+    public void setResultado(DropboxAPI.Entry resultado) {
 
         this.resultado = resultado;
     }
