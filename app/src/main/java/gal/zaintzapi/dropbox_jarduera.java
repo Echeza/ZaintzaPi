@@ -1,22 +1,23 @@
 package gal.zaintzapi;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -28,51 +29,9 @@ public class dropbox_jarduera extends Activity {
     final static public Session.AccessType ACCESS_TYPE = Session.AccessType.DROPBOX;
     private DropboxAPI<AndroidAuthSession> mApi;
     private Button bttn_ver_info;
-
     String accessToken="";
 
-
-    private boolean downloadDropboxFile(String dbPath, File localFile) throws IOException {
-
-        BufferedInputStream br = null;
-        BufferedOutputStream bw = null;
-        DropboxAPI.DropboxInputStream fd= null;
-        try {
-            if (!localFile.exists()) {
-                localFile.createNewFile(); //otherwise dropbox client will fail silently
-            }
-            try {
-              fd =  mApi.getFileStream(dbPath, null);
-                //br = new BufferedInputStream(fd.);
-                bw = new BufferedOutputStream(new FileOutputStream(localFile));
-
-                byte[] buffer = new byte[4096];
-                int read;
-                while (true) {
-                    read = br.read(buffer);
-                    if (read <= 0) {
-                        break;
-                    }
-                    bw.write(buffer, 0, read);
-                }
-            } catch (DropboxException e) {
-                e.printStackTrace();
-            }
-
-
-        } finally {
-            //in finally block:
-            if (bw != null) {
-                bw.close();
-            }
-            if (br != null) {
-                br.close();
-            }
-        }
-
-        return true;
-    }
-
+    String[] fnames = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,59 +55,49 @@ public class dropbox_jarduera extends Activity {
 
         if (mApi.getSession().authenticationSuccessful()) {
             try {
-                // Required to complete auth, sets the access token on the session
                 mApi.getSession().finishAuthentication();
-
-                //accessToken = mApi.getSession().getOAuth2AccessToken();
+                accessToken = mApi.getSession().getOAuth2AccessToken();
                 bajar_todo();
+                if (fnames.length!=0){
+                    fitxatgia_jaitsi();
+                }
             } catch (IllegalStateException e) {
                 Log.i("DbAuthLog", "Error authenticating", e);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (DropboxException e) {
-                e.printStackTrace();
             }
         }
     }
 
-    private void ver_info() {
-        if (accessToken != "") {
-            try {
-                String fitxategi="/prueba.txt";
-                File file = new File(fitxategi);
-                FileOutputStream outputStream = new FileOutputStream(file);
-                DropboxAPI.DropboxFileInfo info = mApi.getFile(fitxategi, null, outputStream, null);
-                Log.i("ExampleLog", "The file's rev is: " + info.getMetadata().rev);
-            } catch (IllegalStateException e) {
-                Log.i("AuthLog", "Error authenticating", e);
-            } catch (FileNotFoundException e) {
-                Log.i("File", "Error file", e);
-            } catch (DropboxException e) {
-                Log.i("Dropbox", "Error dropbox", e);
+    private void fitxatgia_jaitsi() {
+        dei_asink deia=new dei_asink(1,mApi,fnames);
+        if (deia.getZuzena()) {
+            setContentView(R.layout.argazkia);
+            TextView jpgName = (TextView) findViewById(R.id.jpgname);
+            ImageView jpgView = (ImageView) findViewById(R.id.jpgview);
+
+            String myJpgPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+fnames[0];
+
+            jpgName.setText(myJpgPath);
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            Bitmap bm = BitmapFactory.decodeFile(myJpgPath, options);
+            jpgView.setImageBitmap(bm);
+        }
+    }
+
+    private String[] bajar_todo() {
+        dei_asink deia=new dei_asink(0,mApi,fnames);
+        if (deia.getZuzena()) {
+            DropboxAPI.Entry dirent= deia.getEmaitza();
+            ArrayList<DropboxAPI.Entry> files = new ArrayList<DropboxAPI.Entry>();
+            ArrayList<String> dir = new ArrayList<String>();
+            int i = 0;
+            for (DropboxAPI.Entry ent : dirent.contents) {
+                files.add(ent);
+                dir.add(new String(files.get(i++).path));
             }
+            fnames = dir.toArray(new String[dir.size()]);
         }
-    }
-
-    private void subir() throws FileNotFoundException, DropboxException {
-        File file = new File("/data/data/weka.log");
-        FileInputStream inputStream = new FileInputStream(file);
-        DropboxAPI.Entry response = mApi.putFile("/magnum-opus.txt", inputStream, file.length(), null, null);
-        Log.i("DbExampleLog", "The uploaded file's rev is: " + response.rev);
-    }
-
-    private String[] bajar_todo() throws FileNotFoundException, DropboxException {
-        String[] fnames = null;
-        DropboxAPI.Entry dirent=null;
-        llamada_ws llamada=new llamada_ws(this,mApi);
-        dirent=llamada.getResultado();
-        ArrayList<DropboxAPI.Entry> files = new ArrayList<DropboxAPI.Entry>();
-        ArrayList<String> dir = new ArrayList<String>();
-        int i=0;
-        for (DropboxAPI.Entry ent : dirent.contents) {
-            files.add(ent);
-            dir.add(new String(files.get(i++).path));
-        }
-        fnames = dir.toArray(new String[dir.size()]);
 
         return fnames;
     }
