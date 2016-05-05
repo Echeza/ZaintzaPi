@@ -22,8 +22,7 @@ public class JardueraNagusia extends Activity {
         bttn_saioa_hasi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent dropbox_jardueraIntent = new Intent(v.getContext(),
-                        dropbox_jarduera.class);
+                Intent dropbox_jardueraIntent = new Intent(JardueraNagusia.this, dropbox_jarduera.class);
                 startActivity(dropbox_jardueraIntent);
             }
         });

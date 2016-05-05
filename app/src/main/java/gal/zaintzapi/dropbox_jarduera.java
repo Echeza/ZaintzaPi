@@ -40,12 +40,15 @@ public class dropbox_jarduera extends Activity {
         AppKeyPair appKeys = new AppKeyPair(DROPBOX_APP_KEY, DROPBOX_APP_SECRET);
         AndroidAuthSession session = new AndroidAuthSession(appKeys);
         mApi = new DropboxAPI<AndroidAuthSession>(session);
-
+        mApi.getSession().startOAuth2Authentication(dropbox_jarduera.this);
         bttn_ver_info=(Button)findViewById(R.id.bttnDrop_box_ver_info_cuenta);
         bttn_ver_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mApi.getSession().startOAuth2Authentication(dropbox_jarduera.this);
+                bajar_todo();
+                if (fnames.length!=0){
+                    fitxatgia_jaitsi();
+                }
             }
         });
     }
@@ -57,10 +60,6 @@ public class dropbox_jarduera extends Activity {
             try {
                 mApi.getSession().finishAuthentication();
                 accessToken = mApi.getSession().getOAuth2AccessToken();
-                bajar_todo();
-                if (fnames.length!=0){
-                    fitxatgia_jaitsi();
-                }
             } catch (IllegalStateException e) {
                 Log.i("DbAuthLog", "Error authenticating", e);
             }
@@ -70,18 +69,9 @@ public class dropbox_jarduera extends Activity {
     private void fitxatgia_jaitsi() {
         dei_asink deia=new dei_asink(1,mApi,fnames);
         if (deia.getZuzena()) {
-            setContentView(R.layout.argazkia);
-            TextView jpgName = (TextView) findViewById(R.id.jpgname);
-            ImageView jpgView = (ImageView) findViewById(R.id.jpgview);
-
-            String myJpgPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+fnames[0];
-
-            jpgName.setText(myJpgPath);
-
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 2;
-            Bitmap bm = BitmapFactory.decodeFile(myJpgPath, options);
-            jpgView.setImageBitmap(bm);
+            Intent argazkiZerrendaIntent = new Intent(dropbox_jarduera.this, argazki_zerrenda.class);
+            argazkiZerrendaIntent.putExtra("izenak", fnames);
+            startActivity(argazkiZerrendaIntent);
         }
     }
 

@@ -26,6 +26,16 @@
 
         </activity>
         <activity
+            android:name=".argazkia"
+            android:label="Argazkia" >
+
+        </activity>
+        <activity
+            android:name=".argazki_zerrenda"
+            android:label="Argazkien Zerrenda" >
+
+        </activity>
+        <activity
             android:name="com.dropbox.client2.android.AuthActivity"
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask" >
