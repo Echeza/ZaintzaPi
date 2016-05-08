@@ -5,8 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import gal.zaintzapi.TouchView.TouchImageView;
 
 public class argazkia extends Activity{
     @Override
@@ -14,7 +15,7 @@ public class argazkia extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.argazkia);
         TextView jpgIzena = (TextView) findViewById(R.id.jpgizena);
-        ImageView jpgArgazkia = (ImageView) findViewById(R.id.jpgargazkia);
+        TouchImageView jpgArgazkia = (TouchImageView) findViewById(R.id.jpgargazkia);
         Bundle extras = argazkia.this.getIntent().getExtras();
         String izena = extras.getString("izena");
 
@@ -26,5 +27,6 @@ public class argazkia extends Activity{
         options.inSampleSize = 2;
         Bitmap bm = BitmapFactory.decodeFile(myJpgPath, options);
         jpgArgazkia.setImageBitmap(bm);
+
     }
 }
