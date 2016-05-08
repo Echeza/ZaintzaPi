@@ -16,10 +16,14 @@ public class argazki_zerrenda extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.argazki_zerrenda);
-        ListView zerrenda = (ListView) findViewById(R.id.listView);
+        ListView zerrenda = (ListView) findViewById(R.id.argazki_zerrenda);
         Bundle extras = argazki_zerrenda.this.getIntent().getExtras();
         final String[] izenak = extras.getStringArray("izenak");
-        final ArrayAdapter<String> Values=new ArrayAdapter<String>(argazki_zerrenda.this, android.R.layout.simple_list_item_1, izenak);
+        String[] izenak_bistarako=new String[izenak.length];
+        for(int i =0;i<izenak.length;i++){
+            izenak_bistarako[i]=izenak[i].split("/")[1].split(".jpg")[0];
+        }
+        final ArrayAdapter<String> Values=new ArrayAdapter<String>(argazki_zerrenda.this, R.layout.zerrenda_lerroa, izenak_bistarako);
         zerrenda.setAdapter(Values);
         zerrenda.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -3,14 +3,17 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
+    android:background="#000000">
     <TextView
-        android:id="@+id/jpgname"
+        android:id="@+id/jpgizena"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        />
+        android:textColor="#ffff50"
+        android:text="Izenburua"
+        android:gravity="center"
+        android:textSize="25dp" />
     <ImageView
-        android:id="@+id/jpgview"
+        android:id="@+id/jpgargazkia"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         />

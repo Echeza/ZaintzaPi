@@ -13,18 +13,18 @@ public class argazkia extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.argazkia);
-        TextView jpgName = (TextView) findViewById(R.id.jpgname);
-        ImageView jpgView = (ImageView) findViewById(R.id.jpgview);
+        TextView jpgIzena = (TextView) findViewById(R.id.jpgizena);
+        ImageView jpgArgazkia = (ImageView) findViewById(R.id.jpgargazkia);
         Bundle extras = argazkia.this.getIntent().getExtras();
         String izena = extras.getString("izena");
 
         String myJpgPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + izena;
 
-        jpgName.setText(myJpgPath);
+        jpgIzena.setText(izena.split("/")[1].split(".jpg")[0]);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
         Bitmap bm = BitmapFactory.decodeFile(myJpgPath, options);
-        jpgView.setImageBitmap(bm);
+        jpgArgazkia.setImageBitmap(bm);
     }
 }

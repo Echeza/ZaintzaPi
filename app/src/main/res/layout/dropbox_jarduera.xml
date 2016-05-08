@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="50dp">
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Ver info cuenta"
-        android:id="@+id/bttnDrop_box_ver_info_cuenta" />
+        android:text="Argazki zerrenda erakutsi"
+        android:id="@+id/bttnDropbox_argazki_zaerrenda"
+        android:background="#bb000000"
+        android:textColor="#ffff50" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Argazkia atera"
+        android:id="@+id/bttnArgazkia_atera"
+        android:textColor="#ffff50"
+        android:background="#bb000000"
+        android:layout_marginTop="10dp" />
+
 </LinearLayout>

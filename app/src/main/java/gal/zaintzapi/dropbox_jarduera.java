@@ -18,7 +18,9 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class dropbox_jarduera extends Activity {
@@ -28,7 +30,8 @@ public class dropbox_jarduera extends Activity {
 
     final static public Session.AccessType ACCESS_TYPE = Session.AccessType.DROPBOX;
     private DropboxAPI<AndroidAuthSession> mApi;
-    private Button bttn_ver_info;
+    private Button bttn_zerrenda_ikusi;
+    private Button bttn_argazkia_atera;
     String accessToken="";
 
     String[] fnames = null;
@@ -41,14 +44,21 @@ public class dropbox_jarduera extends Activity {
         AndroidAuthSession session = new AndroidAuthSession(appKeys);
         mApi = new DropboxAPI<AndroidAuthSession>(session);
         mApi.getSession().startOAuth2Authentication(dropbox_jarduera.this);
-        bttn_ver_info=(Button)findViewById(R.id.bttnDrop_box_ver_info_cuenta);
-        bttn_ver_info.setOnClickListener(new View.OnClickListener() {
+        bttn_zerrenda_ikusi=(Button)findViewById(R.id.bttnDropbox_argazki_zaerrenda);
+        bttn_zerrenda_ikusi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bajar_todo();
+                dena_jaitsi();
                 if (fnames.length!=0){
-                    fitxatgia_jaitsi();
+                    fitxategia_jaitsi();
                 }
+            }
+        });
+        bttn_argazkia_atera=(Button)findViewById(R.id.bttnArgazkia_atera);
+        bttn_argazkia_atera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                argazkia_atera();
             }
         });
     }
@@ -66,7 +76,7 @@ public class dropbox_jarduera extends Activity {
         }
     }
 
-    private void fitxatgia_jaitsi() {
+    private void fitxategia_jaitsi() {
         dei_asink deia=new dei_asink(1,mApi,fnames);
         if (deia.getZuzena()) {
             Intent argazkiZerrendaIntent = new Intent(dropbox_jarduera.this, argazki_zerrenda.class);
@@ -75,7 +85,7 @@ public class dropbox_jarduera extends Activity {
         }
     }
 
-    private String[] bajar_todo() {
+    private String[] dena_jaitsi() {
         dei_asink deia=new dei_asink(0,mApi,fnames);
         if (deia.getZuzena()) {
             DropboxAPI.Entry dirent= deia.getEmaitza();
@@ -90,5 +100,25 @@ public class dropbox_jarduera extends Activity {
         }
 
         return fnames;
+    }
+
+    private void argazkia_atera() {
+        Date data=new Date();
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd_HH.mm.ss");
+        String momentuko_data=ft.format(data);
+        dena_jaitsi();
+        String[] fitxategi_berria=new String[1];
+        for(int i=0;i<fnames.length;i++) {
+            String momentuko_izena = fnames[i].split("/")[1].split(".jpg")[0];
+            if (momentuko_izena.compareTo(momentuko_data) > 0) {
+                fitxategi_berria[0]=fnames[i];
+                dei_asink deia=new dei_asink(1,mApi,fitxategi_berria);
+                if (deia.getZuzena()) {
+                    Intent argazkiaIntent = new Intent(dropbox_jarduera.this, argazkia.class);
+                    argazkiaIntent.putExtra("izena", fitxategi_berria[0]);
+                    startActivity(argazkiaIntent);
+                }
+            }
+        }
     }
 }

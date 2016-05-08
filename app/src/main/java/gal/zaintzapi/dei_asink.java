@@ -76,9 +76,11 @@ public class dei_asink extends Activity{
                 for (int i=0;i<fnames.length;i++){
                     String fitxategi = fnames[i];
                     File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fitxategi);
-                    FileOutputStream outputStream = new FileOutputStream(file);
-                    DropboxAPI.DropboxFileInfo info = mApi.getFile(fitxategi, null, outputStream, null);
-                    Log.i("ExampleLog", "The file's rev is: " + info.getMetadata().rev);
+                    if (!file.exists()) {
+                        FileOutputStream outputStream = new FileOutputStream(file);
+                        DropboxAPI.DropboxFileInfo info = mApi.getFile(fitxategi, null, outputStream, null);
+                        Log.i("ExampleLog", "The file's rev is: " + info.getMetadata().rev);
+                    }
                 }
             } catch (DropboxException e) {
                 e.printStackTrace();
