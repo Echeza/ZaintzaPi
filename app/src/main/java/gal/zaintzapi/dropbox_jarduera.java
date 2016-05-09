@@ -2,22 +2,18 @@ package gal.zaintzapi;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
-
-import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,19 +102,42 @@ public class dropbox_jarduera extends Activity {
         Date data=new Date();
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd_HH.mm.ss");
         String momentuko_data=ft.format(data);
-        dena_jaitsi();
-        String[] fitxategi_berria=new String[1];
-        for(int i=0;i<fnames.length;i++) {
-            String momentuko_izena = fnames[i].split("/")[1].split(".jpg")[0];
-            if (momentuko_izena.compareTo(momentuko_data) > 0) {
-                fitxategi_berria[0]=fnames[i];
-                dei_asink deia=new dei_asink(1,mApi,fitxategi_berria);
-                if (deia.getZuzena()) {
-                    Intent argazkiaIntent = new Intent(dropbox_jarduera.this, argazkia.class);
-                    argazkiaIntent.putExtra("izena", fitxategi_berria[0]);
-                    startActivity(argazkiaIntent);
+        dei_asink deia=new dei_asink(2,mApi,null);
+        if (deia.getZuzena()) {
+            dena_jaitsi();
+            String[] fitxategi_berria = new String[1];
+            for (int i = 0; i < fnames.length; i++) {
+                String momentuko_izena = fnames[i].split("/")[1].split(".jpg")[0];
+                if (momentuko_izena.compareTo(momentuko_data) > 0) {
+                    fitxategi_berria[0] = fnames[i];
+                    dei_asink deia2 = new dei_asink(1, mApi, fitxategi_berria);
+                    if (deia2.getZuzena()) {
+                        Intent argazkiaIntent = new Intent(dropbox_jarduera.this, argazkia.class);
+                        argazkiaIntent.putExtra("izena", fitxategi_berria[0]);
+                        startActivity(argazkiaIntent);
+                    }
                 }
             }
         }
+    }
+
+    private void argazki_web_jaurti(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                URL url = null;
+                HttpURLConnection urlConnection = null;
+                try {
+                    url = new URL("http://echezaservidor.ddns.net/ZaintzaPi/servlet/ZaintzaPiArgazkia/");
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    urlConnection.disconnect();
+                }
+            }
+        }).start();
     }
 }
