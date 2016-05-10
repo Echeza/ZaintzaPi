@@ -10,13 +10,10 @@ import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 public class dropbox_jarduera extends Activity {
@@ -25,7 +22,6 @@ public class dropbox_jarduera extends Activity {
     final static public String DROPBOX_APP_SECRET = "4v8lv8bv5cm9iqp";
 
     final static public Session.AccessType ACCESS_TYPE = Session.AccessType.DROPBOX;
-    private DropboxAPI<AndroidAuthSession> mApi;
     private Button bttn_zerrenda_ikusi;
     private Button bttn_argazkia_atera;
     String accessToken="";
@@ -38,8 +34,8 @@ public class dropbox_jarduera extends Activity {
         setContentView(R.layout.dropbox_jarduera);
         AppKeyPair appKeys = new AppKeyPair(DROPBOX_APP_KEY, DROPBOX_APP_SECRET);
         AndroidAuthSession session = new AndroidAuthSession(appKeys);
-        mApi = new DropboxAPI<AndroidAuthSession>(session);
-        mApi.getSession().startOAuth2Authentication(dropbox_jarduera.this);
+        globalak.mApi = new DropboxAPI<AndroidAuthSession>(session);
+        globalak.mApi.getSession().startOAuth2Authentication(dropbox_jarduera.this);
         bttn_zerrenda_ikusi=(Button)findViewById(R.id.bttnDropbox_argazki_zaerrenda);
         bttn_zerrenda_ikusi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,10 +58,10 @@ public class dropbox_jarduera extends Activity {
     protected void onResume() {
         super.onResume();
 
-        if (mApi.getSession().authenticationSuccessful()) {
+        if (globalak.mApi.getSession().authenticationSuccessful()) {
             try {
-                mApi.getSession().finishAuthentication();
-                accessToken = mApi.getSession().getOAuth2AccessToken();
+                globalak.mApi.getSession().finishAuthentication();
+                accessToken = globalak.mApi.getSession().getOAuth2AccessToken();
             } catch (IllegalStateException e) {
                 Log.i("DbAuthLog", "Error authenticating", e);
             }
@@ -73,7 +69,7 @@ public class dropbox_jarduera extends Activity {
     }
 
     private void fitxategia_jaitsi() {
-        dei_asink deia=new dei_asink(1,mApi,fnames);
+        dei_asink deia=new dei_asink(1,fnames);
         if (deia.getZuzena()) {
             Intent argazkiZerrendaIntent = new Intent(dropbox_jarduera.this, argazki_zerrenda.class);
             argazkiZerrendaIntent.putExtra("izenak", fnames);
@@ -82,7 +78,7 @@ public class dropbox_jarduera extends Activity {
     }
 
     private String[] dena_jaitsi() {
-        dei_asink deia=new dei_asink(0,mApi,fnames);
+        dei_asink deia=new dei_asink(0,fnames);
         if (deia.getZuzena()) {
             DropboxAPI.Entry dirent= deia.getEmaitza();
             ArrayList<DropboxAPI.Entry> files = new ArrayList<DropboxAPI.Entry>();
@@ -99,18 +95,20 @@ public class dropbox_jarduera extends Activity {
     }
 
     private void argazkia_atera() {
+
         Date data=new Date();
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd_HH.mm.ss");
+        ft.setTimeZone(TimeZone.getTimeZone("gmt"));
         String momentuko_data=ft.format(data);
-        dei_asink deia=new dei_asink(2,mApi,null);
+        dei_asink deia=new dei_asink(2,null);
         if (deia.getZuzena()) {
             dena_jaitsi();
             String[] fitxategi_berria = new String[1];
             for (int i = 0; i < fnames.length; i++) {
                 String momentuko_izena = fnames[i].split("/")[1].split(".jpg")[0];
-                if (momentuko_izena.compareTo(momentuko_data) > 0) {
+                if (momentuko_izena.compareTo(momentuko_data) >= 0) {
                     fitxategi_berria[0] = fnames[i];
-                    dei_asink deia2 = new dei_asink(1, mApi, fitxategi_berria);
+                    dei_asink deia2 = new dei_asink(1, fitxategi_berria);
                     if (deia2.getZuzena()) {
                         Intent argazkiaIntent = new Intent(dropbox_jarduera.this, argazkia.class);
                         argazkiaIntent.putExtra("izena", fitxategi_berria[0]);
@@ -121,23 +119,4 @@ public class dropbox_jarduera extends Activity {
         }
     }
 
-    private void argazki_web_jaurti(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                URL url = null;
-                HttpURLConnection urlConnection = null;
-                try {
-                    url = new URL("http://echezaservidor.ddns.net/ZaintzaPi/servlet/ZaintzaPiArgazkia/");
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    urlConnection.disconnect();
-                }
-            }
-        }).start();
-    }
 }

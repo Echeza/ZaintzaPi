@@ -5,7 +5,6 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 
 import java.io.BufferedReader;
@@ -21,11 +20,9 @@ public class dei_asink extends Activity{
     private DropboxAPI.Entry emaitza=null;
     public boolean amaitua=false;
     private boolean zuzena=false;
-    private DropboxAPI<AndroidAuthSession> mApi;
     String[] fnames=null;
 
-    public dei_asink(int deia, DropboxAPI<AndroidAuthSession> mApi,String[] fnames)  {
-        this.mApi=mApi;
+    public dei_asink(int deia,String[] fnames)  {
         this.fnames=fnames;
         if (deia==0) {
             new fitxategien_pathak().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -72,7 +69,7 @@ public class dei_asink extends Activity{
         @Override
         protected Object doInBackground(String... params) {
             try {
-                emaitza = mApi.metadata("/", 1000, null, true, null);
+                emaitza = globalak.mApi.metadata("/", 1000, null, true, null);
             } catch (DropboxException e) {
                 e.printStackTrace();
             }
@@ -92,7 +89,7 @@ public class dei_asink extends Activity{
                     File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fitxategi);
                     if (!file.exists()) {
                         FileOutputStream outputStream = new FileOutputStream(file);
-                        DropboxAPI.DropboxFileInfo info = mApi.getFile(fitxategi, null, outputStream, null);
+                        DropboxAPI.DropboxFileInfo info = globalak.mApi.getFile(fitxategi, null, outputStream, null);
                         Log.i("ExampleLog", "The file's rev is: " + info.getMetadata().rev);
                     }
                 }
@@ -114,9 +111,8 @@ public class dei_asink extends Activity{
             BufferedReader reader=null;
             String serverResponse=null;
             try {
-
-                //URL url = new URL("http://echezaservidor.ddns.net/ZaintzaPi/servlet/ZaintzaPiArgazkia/");
-                URL url = new URL("http://192.168.1.55:8080/ZaintzaPi/servlet/ZaintzaPiArgazkia");
+                //URL url = new URL("http://192.168.1.55:8080/ZaintzaPi/servlet/ZaintzaPiArgazkia");
+                URL url = new URL("http://echezaservidor.ddns.net/ZaintzaPi/servlet/ZaintzaPiArgazkia");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setConnectTimeout(5000);
