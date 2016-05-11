@@ -1,13 +1,10 @@
 package gal.zaintzapi;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -20,25 +17,14 @@ public class argazki_zerrenda extends Activity{
         ListView zerrenda = (ListView) findViewById(R.id.argazki_zerrenda);
         Bundle extras = argazki_zerrenda.this.getIntent().getExtras();
         final String[] izenak = extras.getStringArray("izenak");
-        //String[] izenak_bistarako=new String[izenak.length];
         ArrayList<String> izenak_bistarako =new ArrayList<>();
         for(int i =0;i<izenak.length;i++){
-            //izenak_bistarako[i]=izenak[i].split("/")[1].split(".jpg")[0];
             izenak_bistarako.add(i,izenak[i].split("/")[1].split(".jpg")[0]);
         }
-        //final ArrayAdapter<String> Values=new ArrayAdapter<String>(argazki_zerrenda.this, R.layout.zerrenda_lerroa, izenak_bistarako);
 
         lista_laguntzailea adapter = new lista_laguntzailea(izenak_bistarako, this);
         zerrenda.setAdapter(adapter);
 
-        //Button delete = (Button)findViewById(R.id.delete_btn);
-        //delete.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //        AlertDialog alert=new AlertDialog.Builder(argazki_zerrenda.this).create();
-        //        alert.setTitle("Uolaaas"+(int)v.getTag());
-        //    }
-        //});
         zerrenda.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

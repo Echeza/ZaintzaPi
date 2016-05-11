@@ -54,6 +54,16 @@ public class dei_asink extends Activity{
                 if (elapsedSeconds > 120)
                     break;
             }
+        }else if(deia==3){
+            new fitxategia_ezabatu().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            long tStart = System.currentTimeMillis();
+            while (!amaitua) {
+                long tEnd = System.currentTimeMillis();
+                long tDelta = tEnd - tStart;
+                double elapsedSeconds = tDelta / 1000.0;
+                if (elapsedSeconds > 120)
+                    break;
+            }
         }
     }
 
@@ -90,7 +100,7 @@ public class dei_asink extends Activity{
                     if (!file.exists()) {
                         FileOutputStream outputStream = new FileOutputStream(file);
                         DropboxAPI.DropboxFileInfo info = globalak.mApi.getFile(fitxategi, null, outputStream, null);
-                        Log.i("ExampleLog", "The file's rev is: " + info.getMetadata().rev);
+                        Log.i("Fitxategia", "The file's rev is: " + info.getMetadata().rev);
                     }
                 }
             } catch (DropboxException e) {
@@ -119,7 +129,7 @@ public class dei_asink extends Activity{
                 connection.setRequestMethod("GET");
                 connection.connect();
                 int statusCode = connection.getResponseCode();
-                //Log.e("statusCode", "" + statusCode);
+                Log.i("Status Kodea", "" + statusCode);
                 if (statusCode == 200) {
                     sb = new StringBuilder();
                     reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -142,6 +152,27 @@ public class dei_asink extends Activity{
                         e.printStackTrace();
                     }
                 }
+            }
+            zuzena=true;
+            amaitua=true;
+            return null;
+        }
+    }
+
+    private class fitxategia_ezabatu extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                for (int i=0;i<fnames.length;i++){
+                    String fitxategi = fnames[i];
+                    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fitxategi);
+                    file.delete();
+                    if (!file.exists()) {
+                        globalak.mApi.delete(fitxategi);
+                    }
+                }
+            } catch (DropboxException e) {
+                e.printStackTrace();
             }
             zuzena=true;
             amaitua=true;

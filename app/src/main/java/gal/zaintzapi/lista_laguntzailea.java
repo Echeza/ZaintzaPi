@@ -43,17 +43,19 @@ public class lista_laguntzailea extends BaseAdapter implements ListAdapter {
             view = inflater.inflate(R.layout.lista_laguntzailea, null);
         }
 
-        TextView listItemText = (TextView)view.findViewById(R.id.lerroa);
+        final TextView listItemText = (TextView)view.findViewById(R.id.lerroa);
         listItemText.setText(list.get(position));
         Button deleteBtn = (Button)view.findViewById(R.id.delete_btn);
         deleteBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //do something
-                //Badaukat list item bakoitzaren izena gehitu / eta .jpg
-
-                list.remove(position); //or some other task
-                notifyDataSetChanged();
+                String[] fitxategia= new String[1];
+                fitxategia[0]="/"+list.get(position)+".jpg";
+                dei_asink deia = new dei_asink(3, fitxategia);
+                if (deia.getZuzena()) {
+                    list.remove(position);
+                    notifyDataSetChanged();
+                }
             }
         });
         return view;
