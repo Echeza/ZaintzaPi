@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="horia">#FFFF50</color>
-    <color name="btn_beltza">#bb000000</color>
-    <color name="btn_grisa">#bb5c5c5c</color>
+    <color name="beltza">#000000</color>
+    <color name="zuria">#FFFFFF</color>
+    <color name="grisa">#5c5c5c</color>
+    <color name="berdea">#67e000</color>
+    <color name="berdea_argia">#9dff68</color>
+    <color name="berdea_iluna">#116400</color>
 </resources>

@@ -122,7 +122,13 @@ public class dei_asink extends Activity{
             String serverResponse=null;
             try {
                 //URL url = new URL("http://192.168.1.55:8080/ZaintzaPi/servlet/ZaintzaPiArgazkia");
-                URL url = new URL("http://echezaservidor.ddns.net/ZaintzaPi/servlet/ZaintzaPiArgazkia");
+                //URL url = new URL("http://echezaservidor.ddns.net/ZaintzaPi/servlet/ZaintzaPiArgazkia");
+                URL url =null;
+                if (globalak.konexio_aukera){
+                    url = new URL("http://"+globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
+                }else{
+                    url = new URL("http://"+globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
+                }
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setConnectTimeout(5000);
@@ -137,7 +143,7 @@ public class dei_asink extends Activity{
                     while ((line = reader.readLine()) != null) {
                         sb.append(line + "\n");
                     }
-                }
+                }//else konexioarekin arazoak
 
                 connection.disconnect();
                 if (sb!=null)

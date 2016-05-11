@@ -3,13 +3,13 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#000000">
+    android:background="@color/berdea_argia">
 
     <TextView
         android:id="@+id/jpgizena"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffff50"
+        android:textColor="@color/beltza"
         android:text="Izenburua"
         android:gravity="center"
         android:textSize="25sp" />
