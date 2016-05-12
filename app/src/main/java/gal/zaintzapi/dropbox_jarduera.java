@@ -1,6 +1,8 @@
 package gal.zaintzapi;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -90,6 +92,8 @@ public class dropbox_jarduera extends Activity {
             try {
                 globalak.mApi.getSession().finishAuthentication();
                 accessToken = globalak.mApi.getSession().getOAuth2AccessToken();
+                //Aldaketak dauden ikusteko
+                dei_asink deia=new dei_asink(4,fnames);
             } catch (IllegalStateException e) {
                 Log.i("DbAuthLog", "Error authenticating", e);
             }
@@ -144,6 +148,17 @@ public class dropbox_jarduera extends Activity {
                     }
                 }
             }
+        }else{
+            new AlertDialog.Builder(dropbox_jarduera.this)
+                    .setTitle("Konexioarekin arazoak")
+                    .setMessage("Konproba ezazu ea helbideak eta sarea ondo adierazita dauden.")
+                    .setPositiveButton("Ados", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
         }
     }
 

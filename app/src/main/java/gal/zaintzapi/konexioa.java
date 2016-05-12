@@ -2,6 +2,7 @@ package gal.zaintzapi;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,11 @@ public class konexioa extends Activity {
                 if(extra.getText().toString()!=null){
                     globalak.url_extra=extra.getText().toString();
                 }
+                SharedPreferences settings = getSharedPreferences(globalak.Pref_URL, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("url_extra", globalak.url_extra);
+                editor.putString("url_intra", globalak.url_intra);
+                editor.commit();
                 konexioa.this.finish();
             }
         });

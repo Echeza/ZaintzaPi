@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name=".dropbox_jarduera"
-            android:label="Dropbox Jarduera" >
+            android:label="Menu nagusia" >
         </activity>
         <activity
             android:name=".konexioa"

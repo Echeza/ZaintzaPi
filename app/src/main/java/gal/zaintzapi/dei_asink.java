@@ -1,12 +1,15 @@
 package gal.zaintzapi;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.exception.DropboxException;
-
+import com.dropbox.client2.DropboxAPI.Entry;
+import com.dropbox.client2.DropboxAPI.DeltaPage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class dei_asink extends Activity{
 
@@ -64,6 +68,9 @@ public class dei_asink extends Activity{
                 if (elapsedSeconds > 120)
                     break;
             }
+        }else if(deia==4){
+            new aldaketak_begiratu().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
         }
     }
 
@@ -137,14 +144,14 @@ public class dei_asink extends Activity{
                 int statusCode = connection.getResponseCode();
                 Log.i("Status Kodea", "" + statusCode);
                 if (statusCode == 200) {
+                    zuzena=true;
                     sb = new StringBuilder();
                     reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     String line;
                     while ((line = reader.readLine()) != null) {
                         sb.append(line + "\n");
                     }
-                }//else konexioarekin arazoak
-
+                }
                 connection.disconnect();
                 if (sb!=null)
                     serverResponse=sb.toString();
@@ -159,7 +166,6 @@ public class dei_asink extends Activity{
                     }
                 }
             }
-            zuzena=true;
             amaitua=true;
             return null;
         }
@@ -180,6 +186,39 @@ public class dei_asink extends Activity{
             } catch (DropboxException e) {
                 e.printStackTrace();
             }
+            zuzena=true;
+            amaitua=true;
+            return null;
+        }
+    }
+    private class aldaketak_begiratu extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            /*try {
+                DeltaPage<Entry> emaitza;
+                String cursor ="";
+                Notification mNotification = new Notification.Builder(dei_asink.this)
+                        .setContentTitle("New Post!")
+                        .setContentText("Here's an awesome update for you!")
+                        .setSmallIcon(R.mipmap.zaintzapi)
+                        .build();
+
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                ArrayList<String> ikusitako_argazkiak;
+                do {
+                    emaitza = globalak.mApi.delta(cursor);
+                    cursor = emaitza.cursor;
+                    if(emaitza.entries != null) {
+                        for (int i=0;i<emaitza.entries.size();i++)
+                        if (true){
+                            notificationManager.notify(0,mNotification);
+                        }
+                    }
+                } while (true);
+            } catch (DropboxException e) {
+                e.printStackTrace();
+            }*/
             zuzena=true;
             amaitua=true;
             return null;
