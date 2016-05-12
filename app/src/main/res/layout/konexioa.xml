@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/berdea_argia">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
@@ -71,8 +70,6 @@
             android:text="Gorde aldaketak"
             android:padding="15dp"
             android:id="@+id/btn_gorde"
-            android:textColor="#ffff50"
-            android:background="@drawable/button_state"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp" />
     </LinearLayout>

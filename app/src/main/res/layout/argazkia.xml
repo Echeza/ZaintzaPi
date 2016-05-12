@@ -2,17 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/berdea_argia">
+    android:layout_height="fill_parent">
 
     <TextView
         android:id="@+id/jpgizena"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/beltza"
         android:text="Izenburua"
-        android:gravity="center"
-        android:textSize="25sp" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center" />
 
     <gal.zaintzapi.TouchView.TouchImageView
         android:id="@+id/jpgargazkia"

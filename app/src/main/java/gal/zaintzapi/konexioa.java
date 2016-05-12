@@ -14,11 +14,12 @@ public class konexioa extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.konexioa);
         gorde=(Button)findViewById(R.id.btn_gorde);
         intra=(EditText)findViewById(R.id.editIntra);
         extra=(EditText)findViewById(R.id.editExtra);
         intra.setText(globalak.url_intra);
-        intra.setText(globalak.url_extra);
+        extra.setText(globalak.url_extra);
         gorde.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -28,6 +29,7 @@ public class konexioa extends Activity {
                 if(extra.getText().toString()!=null){
                     globalak.url_extra=extra.getText().toString();
                 }
+                konexioa.this.finish();
             }
         });
     }

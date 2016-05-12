@@ -1,5 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".JardueraNagusia">
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".dropbox_jarduera">
     <item
         android:id="@+id/konexio_konfiguraketa"
         android:orderInCategory="1"

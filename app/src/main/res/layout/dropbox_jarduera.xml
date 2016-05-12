@@ -2,24 +2,40 @@
 <LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:padding="50dp"
-    android:nestedScrollingEnabled="false"
-    android:background="@color/berdea_argia">
+    android:nestedScrollingEnabled="false">
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Argazki zerrenda erakutsi"
-        android:id="@+id/bttnDropbox_argazki_zaerrenda"
-        android:background="@drawable/button_state"
-        android:textColor="@color/zuria" />
+        android:id="@+id/bttnDropbox_argazki_zaerrenda" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Argazkia atera"
         android:id="@+id/bttnArgazkia_atera"
-        android:textColor="@color/zuria"
-        android:background="@drawable/button_state"
         android:layout_marginTop="10dp" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Konexio aukeraketa"
+        android:id="@+id/konexioa"
+        android:padding="5dp"
+        android:layout_above="@+id/konexioStatus"
+        android:layout_alignStart="@+id/saioa_hasi"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/konexioStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Konexio status"
+        android:padding="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center" />
 
 </LinearLayout>

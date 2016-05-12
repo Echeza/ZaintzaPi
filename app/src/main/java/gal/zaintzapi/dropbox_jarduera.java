@@ -4,8 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
+
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AppKeyPair;
@@ -24,6 +30,8 @@ public class dropbox_jarduera extends Activity {
     final static public Session.AccessType ACCESS_TYPE = Session.AccessType.DROPBOX;
     private Button bttn_zerrenda_ikusi;
     private Button bttn_argazkia_atera;
+    private Switch konexio_aukera=null;
+    private TextView konexio_status=null;
     String accessToken="";
 
     String[] fnames = null;
@@ -37,6 +45,8 @@ public class dropbox_jarduera extends Activity {
         globalak.mApi = new DropboxAPI<AndroidAuthSession>(session);
         globalak.mApi.getSession().startOAuth2Authentication(dropbox_jarduera.this);
         bttn_zerrenda_ikusi=(Button)findViewById(R.id.bttnDropbox_argazki_zaerrenda);
+        konexio_aukera=(Switch) findViewById(R.id.konexioa);
+        konexio_status = (TextView) findViewById(R.id.konexioStatus);
         bttn_zerrenda_ikusi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +63,24 @@ public class dropbox_jarduera extends Activity {
                 argazkia_atera();
             }
         });
+        konexio_aukera.setChecked(true);
+        konexio_aukera.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    konexio_status.setText("SARE BARRUAN");
+                    globalak.konexio_aukera=true;
+                }else{
+                    konexio_status.setText("SARE KANPOAN");
+                    globalak.konexio_aukera=false;
+                }
+            }
+        });
+        if(konexio_aukera.isChecked()){
+            konexio_status.setText("SARE BARRUAN");
+        }else {
+            konexio_status.setText("SARE KANPOAN");
+        }
     }
 
     protected void onResume() {
@@ -117,6 +145,22 @@ public class dropbox_jarduera extends Activity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_konexioa, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.konexio_konfiguraketa) {
+            Intent konexioaIntent = new Intent(dropbox_jarduera.this, konexioa.class);
+            startActivity(konexioaIntent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

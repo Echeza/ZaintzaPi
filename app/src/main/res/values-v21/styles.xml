@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="@android:style/Theme.Material.Light">
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
 
+    <style name="CustomActionBarTheme" parent="android:Theme.Material.Light">
+        <item name="android:colorPrimary">@color/berdea</item>
+        <item name="android:colorPrimaryDark">@color/berdea_iluna</item>
+        <item name="android:colorAccent">@color/beltza</item>
     </style>
-    <style name="MyActionBar" parent="@android:style/Widget.Material.Light.ActionBar">
-        <item name="android:background">@color/beltza</item>
-        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
-    </style>
-    <style name="MyActionBarTitleText"
-        parent="@android:style/TextAppearance.Material.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/zuria</item>
-        <item name="android:textSize">50px</item>
-    </style>
+
+
 </resources>
