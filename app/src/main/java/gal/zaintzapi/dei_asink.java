@@ -1,15 +1,10 @@
 package gal.zaintzapi;
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.exception.DropboxException;
-import com.dropbox.client2.DropboxAPI.Entry;
-import com.dropbox.client2.DropboxAPI.DeltaPage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,7 +12,6 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class dei_asink extends Activity{
 
@@ -69,8 +63,35 @@ public class dei_asink extends Activity{
                     break;
             }
         }else if(deia==4){
-            new aldaketak_begiratu().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
+            new web_deia_amatatu().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            long tStart = System.currentTimeMillis();
+            while (!amaitua) {
+                long tEnd = System.currentTimeMillis();
+                long tDelta = tEnd - tStart;
+                double elapsedSeconds = tDelta / 1000.0;
+                if (elapsedSeconds > 120)
+                    break;
+            }
+        }else if(deia==5) {
+            new web_deia_ezabatu().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            long tStart = System.currentTimeMillis();
+            while (!amaitua) {
+                long tEnd = System.currentTimeMillis();
+                long tDelta = tEnd - tStart;
+                double elapsedSeconds = tDelta / 1000.0;
+                if (elapsedSeconds > 120)
+                    break;
+            }
+        }else if(deia==6) {
+            new web_deia_mugimendua().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            long tStart = System.currentTimeMillis();
+            while (!amaitua) {
+                long tEnd = System.currentTimeMillis();
+                long tDelta = tEnd - tStart;
+                double elapsedSeconds = tDelta / 1000.0;
+                if (elapsedSeconds > 120)
+                    break;
+            }
         }
     }
 
@@ -131,7 +152,7 @@ public class dei_asink extends Activity{
                 //URL url = new URL("http://192.168.1.55:8080/ZaintzaPi/servlet/ZaintzaPiArgazkia");
                 //URL url = new URL("http://echezaservidor.ddns.net/ZaintzaPi/servlet/ZaintzaPiArgazkia");
                 URL url =null;
-                if (globalak.konexio_aukera){
+                if (globalak.konexio_konf){
                     url = new URL("http://"+globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
                 }else{
                     url = new URL("http://"+globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
@@ -191,35 +212,149 @@ public class dei_asink extends Activity{
             return null;
         }
     }
-    private class aldaketak_begiratu extends AsyncTask<String, Void, Void> {
+
+    private class web_deia_amatatu extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
-            /*try {
-                DeltaPage<Entry> emaitza;
-                String cursor ="";
-                Notification mNotification = new Notification.Builder(dei_asink.this)
-                        .setContentTitle("New Post!")
-                        .setContentText("Here's an awesome update for you!")
-                        .setSmallIcon(R.mipmap.zaintzapi)
-                        .build();
+            StringBuilder sb=null;
+            BufferedReader reader=null;
+            String serverResponse=null;
+            try {
+                URL url =null;
+                if (globalak.konexio_konf){
+                    url = new URL("http://"+globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiAmatatu");
+                }else{
+                    url = new URL("http://"+globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiAmatatu");
+                }
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                connection.setConnectTimeout(5000);
+                connection.setRequestMethod("GET");
+                connection.connect();
+                int statusCode = connection.getResponseCode();
+                Log.i("Status Kodea", "" + statusCode);
+                if (statusCode == 200) {
+                    zuzena=true;
+                    sb = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                }
+                connection.disconnect();
+                if (sb!=null)
+                    serverResponse=sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            amaitua=true;
+            return null;
+        }
+    }
 
-                NotificationManager notificationManager =
-                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                ArrayList<String> ikusitako_argazkiak;
-                do {
-                    emaitza = globalak.mApi.delta(cursor);
-                    cursor = emaitza.cursor;
-                    if(emaitza.entries != null) {
-                        for (int i=0;i<emaitza.entries.size();i++)
-                        if (true){
-                            notificationManager.notify(0,mNotification);
+    private class web_deia_ezabatu extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            StringBuilder sb=null;
+            BufferedReader reader=null;
+            String serverResponse=null;
+            for (int i=0;i<fnames.length;i++) {
+                String fitxategi = fnames[i];
+                try {
+                    URL url = null;
+                    if (globalak.konexio_konf) {
+                        url = new URL("http://" + globalak.url_intra + "/ZaintzaPi/servlet/ZaintzaPiEzabatu?fitxategia=" +fitxategi);
+                    } else {
+                        url = new URL("http://" + globalak.url_extra + "/ZaintzaPi/servlet/ZaintzaPiEzabatu?fitxategia=" +fitxategi);
+                    }
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                    connection.setConnectTimeout(5000);
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+                    int statusCode = connection.getResponseCode();
+                    Log.i("Status Kodea", "" + statusCode);
+                    if (statusCode == 200) {
+                        zuzena = true;
+                        sb = new StringBuilder();
+                        reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line + "\n");
                         }
                     }
-                } while (true);
-            } catch (DropboxException e) {
+                    connection.disconnect();
+                    if (sb != null)
+                        serverResponse = sb.toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                amaitua = true;
+            }
+            return null;
+        }
+    }
+
+    private class web_deia_mugimendua extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            StringBuilder sb=null;
+            BufferedReader reader=null;
+            String serverResponse=null;
+            try {
+                URL url =null;
+                if (globalak.konexio_konf){
+                    url = new URL("http://"+globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiMugimendua");
+                }else{
+                    url = new URL("http://"+globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiMugimendua");
+                }
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                connection.setConnectTimeout(5000);
+                connection.setRequestMethod("GET");
+                connection.connect();
+                int statusCode = connection.getResponseCode();
+                Log.i("Status Kodea", "" + statusCode);
+                if (statusCode == 200) {
+                    zuzena=true;
+                    sb = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                }
+                connection.disconnect();
+                if (sb!=null)
+                    serverResponse=sb.toString();
+            } catch (Exception e) {
                 e.printStackTrace();
-            }*/
-            zuzena=true;
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
             amaitua=true;
             return null;
         }

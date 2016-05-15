@@ -7,7 +7,9 @@ public abstract class globalak {
     public static DropboxAPI<AndroidAuthSession> mApi=null;
     public static String url_intra="192.168.1.55:8080";
     public static String url_extra="echezaservidor.ddns.net";
-    public static Boolean konexio_aukera=true;
+    public static Boolean konexio_konf=true;
+    public static Boolean mugimendu_konf=false;
     public static final String Pref_URL = "Nire_URLak";
+    public static Integer fitxategiKantitatea=null;
 
 }

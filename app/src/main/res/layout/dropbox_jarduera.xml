@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:padding="50dp"
-    android:nestedScrollingEnabled="false">
+    android:padding="50dp">
 
     <Button
         android:layout_width="fill_parent"
@@ -17,25 +17,52 @@
         android:id="@+id/bttnArgazkia_atera"
         android:layout_marginTop="10dp" />
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Konexio aukeraketa"
-        android:id="@+id/konexioa"
-        android:padding="5dp"
-        android:layout_above="@+id/konexioStatus"
-        android:layout_alignStart="@+id/saioa_hasi"
-        android:textStyle="bold" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/konexioStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Konexio status"
-        android:padding="5dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:gravity="center" />
+        <Switch
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Mugimendu sentsorea"
+            android:id="@+id/mugimendua"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/mugimendustatus"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="mugimendu status"
+            android:padding="5dp"
+            android:gravity="center"
+            android:layout_below="@+id/mugimendua"
+            android:layout_alignParentStart="true" />
+
+        <Switch
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Konexio aukeraketa"
+            android:id="@+id/konexioa"
+            android:padding="5dp"
+            android:layout_above="@+id/konexioStatus"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="false" />
+
+        <TextView
+            android:id="@+id/konexioStatus"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Konexio status"
+            android:padding="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center" />
+    </RelativeLayout>
 
 </LinearLayout>

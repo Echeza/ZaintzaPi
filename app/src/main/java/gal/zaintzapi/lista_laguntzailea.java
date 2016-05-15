@@ -1,6 +1,8 @@
 package gal.zaintzapi;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +38,7 @@ public class lista_laguntzailea extends BaseAdapter implements ListAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -51,10 +53,24 @@ public class lista_laguntzailea extends BaseAdapter implements ListAdapter {
             public void onClick(View v) {
                 String[] fitxategia= new String[1];
                 fitxategia[0]="/"+list.get(position)+".jpg";
-                dei_asink deia = new dei_asink(3, fitxategia);
+                dei_asink deia = new dei_asink(5, fitxategia);
                 if (deia.getZuzena()) {
-                    list.remove(position);
-                    notifyDataSetChanged();
+                    dei_asink deia2 = new dei_asink(3, fitxategia);
+                    if (deia2.getZuzena()) {
+                        list.remove(position);
+                        notifyDataSetChanged();
+                    }
+                }else{
+                    new AlertDialog.Builder(parent.getContext())
+                            .setTitle("Konexioarekin arazoak")
+                            .setMessage("Konproba ezazu ea helbideak eta sarea ondo adierazita dauden.")
+                            .setPositiveButton("Ados", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                 }
             }
         });

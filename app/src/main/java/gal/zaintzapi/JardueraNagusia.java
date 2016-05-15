@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-
 public class JardueraNagusia extends Activity {
 
     private Button bttn_saioa_hasi=null;
@@ -27,6 +26,8 @@ public class JardueraNagusia extends Activity {
         SharedPreferences settings = getSharedPreferences(globalak.Pref_URL, 0);
         globalak.url_extra = settings.getString("url_extra", globalak.url_extra);
         globalak.url_intra = settings.getString("url_intra", globalak.url_intra);
+        globalak.konexio_konf=settings.getBoolean("konexio_konf",globalak.konexio_konf);
+        globalak.mugimendu_konf=settings.getBoolean("mugimendu_konf",globalak.mugimendu_konf);
 
     }
 
