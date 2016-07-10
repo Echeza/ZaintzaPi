@@ -1,4 +1,5 @@
 package gal.zaintzapi;
+
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -13,82 +14,85 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class dei_asink extends Activity{
-
+public class DeiAsink extends Activity{
     private DropboxAPI.Entry emaitza=null;
-    public boolean amaitua=false;
+    private boolean amaitua=false;
     private boolean zuzena=false;
-    String[] fnames=null;
+    private String[] fnames=null;
+    private long tStart;
+    private long tEnd;
+    private long tDelta;
+    private double elapsedSeconds;
 
-    public dei_asink(int deia,String[] fnames)  {
+    public DeiAsink(int deia, String[] fnames)  {
         this.fnames=fnames;
         if (deia==0) {
-            new fitxategien_pathak().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            long tStart = System.currentTimeMillis();
+            new FitxategienPathak().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            tStart = System.currentTimeMillis();
             while (!amaitua) {
-                long tEnd = System.currentTimeMillis();
-                long tDelta = tEnd - tStart;
-                double elapsedSeconds = tDelta / 1000.0;
+                tEnd = System.currentTimeMillis();
+                tDelta = tEnd - tStart;
+                elapsedSeconds = tDelta / 1000.0;
                 if (elapsedSeconds > 120)
                     break;
             }
         }else if(deia==1){
-            new jaitsi_argazkia().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            long tStart = System.currentTimeMillis();
+            new JaitsiArgazkia().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            tStart = System.currentTimeMillis();
             while (!amaitua) {
-                long tEnd = System.currentTimeMillis();
-                long tDelta = tEnd - tStart;
-                double elapsedSeconds = tDelta / 1000.0;
+                tEnd = System.currentTimeMillis();
+                tDelta = tEnd - tStart;
+                elapsedSeconds = tDelta / 1000.0;
                 if (elapsedSeconds > 120)
                     break;
             }
         }else if(deia==2){
-            new web_deia_argazkia().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            long tStart = System.currentTimeMillis();
+            new WebDeiaArgazkia().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            tStart = System.currentTimeMillis();
             while (!amaitua) {
-                long tEnd = System.currentTimeMillis();
-                long tDelta = tEnd - tStart;
-                double elapsedSeconds = tDelta / 1000.0;
+                tEnd = System.currentTimeMillis();
+                tDelta = tEnd - tStart;
+                elapsedSeconds = tDelta / 1000.0;
                 if (elapsedSeconds > 120)
                     break;
             }
         }else if(deia==3){
-            new fitxategia_ezabatu().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            long tStart = System.currentTimeMillis();
+            new FitxategiaEzabatu().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            tStart = System.currentTimeMillis();
             while (!amaitua) {
-                long tEnd = System.currentTimeMillis();
-                long tDelta = tEnd - tStart;
-                double elapsedSeconds = tDelta / 1000.0;
+                tEnd = System.currentTimeMillis();
+                tDelta = tEnd - tStart;
+                elapsedSeconds = tDelta / 1000.0;
                 if (elapsedSeconds > 120)
                     break;
             }
         }else if(deia==4){
-            new web_deia_amatatu().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            long tStart = System.currentTimeMillis();
+            new WebDeiaAmatatu().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            tStart = System.currentTimeMillis();
             while (!amaitua) {
-                long tEnd = System.currentTimeMillis();
-                long tDelta = tEnd - tStart;
-                double elapsedSeconds = tDelta / 1000.0;
+                tEnd = System.currentTimeMillis();
+                tDelta = tEnd - tStart;
+                elapsedSeconds = tDelta / 1000.0;
                 if (elapsedSeconds > 120)
                     break;
             }
         }else if(deia==5) {
-            new web_deia_ezabatu().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            long tStart = System.currentTimeMillis();
+            new WebDeiaEzabatu().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            tStart = System.currentTimeMillis();
             while (!amaitua) {
-                long tEnd = System.currentTimeMillis();
-                long tDelta = tEnd - tStart;
-                double elapsedSeconds = tDelta / 1000.0;
+                tEnd = System.currentTimeMillis();
+                tDelta = tEnd - tStart;
+                elapsedSeconds = tDelta / 1000.0;
                 if (elapsedSeconds > 120)
                     break;
             }
         }else if(deia==6) {
-            new web_deia_mugimendua().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            long tStart = System.currentTimeMillis();
+            new WebDeiaMugimendua().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            tStart = System.currentTimeMillis();
             while (!amaitua) {
-                long tEnd = System.currentTimeMillis();
-                long tDelta = tEnd - tStart;
-                double elapsedSeconds = tDelta / 1000.0;
+                tEnd = System.currentTimeMillis();
+                tDelta = tEnd - tStart;
+                elapsedSeconds = tDelta / 1000.0;
                 if (elapsedSeconds > 120)
                     break;
             }
@@ -103,11 +107,11 @@ public class dei_asink extends Activity{
         return zuzena;
     }
 
-    private class fitxategien_pathak extends AsyncTask<String, Void, Object> {
+    private class FitxategienPathak extends AsyncTask<String, Void, Object> {
         @Override
         protected Object doInBackground(String... params) {
             try {
-                emaitza = globalak.mApi.metadata("/", 1000, null, true, null);
+                emaitza = Globalak.mApi.metadata("/", 1000, null, true, null);
             } catch (DropboxException e) {
                 e.printStackTrace();
             }
@@ -118,22 +122,23 @@ public class dei_asink extends Activity{
         }
     }
 
-    private class jaitsi_argazkia extends AsyncTask<String, Void, Void> {
+    private class JaitsiArgazkia extends AsyncTask<String, Void, Void> {
+        private String fitxategi;
+        private File file;
+        private DropboxAPI.DropboxFileInfo info;
         @Override
         protected Void doInBackground(String... params) {
             try {
-                for (int i=0;i<fnames.length;i++){
-                    String fitxategi = fnames[i];
-                    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fitxategi);
+                for (String fname : fnames) {
+                    fitxategi = fname;
+                    file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fitxategi);
                     if (!file.exists()) {
                         FileOutputStream outputStream = new FileOutputStream(file);
-                        DropboxAPI.DropboxFileInfo info = globalak.mApi.getFile(fitxategi, null, outputStream, null);
+                        info = Globalak.mApi.getFile(fitxategi, null, outputStream, null);
                         Log.i("Fitxategia", "The file's rev is: " + info.getMetadata().rev);
                     }
                 }
-            } catch (DropboxException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
+            } catch (DropboxException | FileNotFoundException e) {
                 e.printStackTrace();
             }
             zuzena=true;
@@ -142,40 +147,37 @@ public class dei_asink extends Activity{
         }
     }
 
-    private class web_deia_argazkia extends AsyncTask<String, Void, Void> {
+    private class WebDeiaArgazkia extends AsyncTask<String, Void, Void> {
+        private StringBuilder sb;
+        private BufferedReader reader;
+        private URL url;
+        private HttpURLConnection connection;
+        private int statusCode;
+        private String line;
         @Override
         protected Void doInBackground(String... params) {
-            StringBuilder sb=null;
-            BufferedReader reader=null;
-            String serverResponse=null;
             try {
-                //URL url = new URL("http://192.168.1.55:8080/ZaintzaPi/servlet/ZaintzaPiArgazkia");
-                //URL url = new URL("http://echezaservidor.ddns.net/ZaintzaPi/servlet/ZaintzaPiArgazkia");
-                URL url =null;
-                if (globalak.konexio_konf){
-                    url = new URL("http://"+globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
+                if (Globalak.konexio_konf){
+                    url = new URL("http://"+ Globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
                 }else{
-                    url = new URL("http://"+globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
+                    url = new URL("http://"+ Globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
                 }
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setConnectTimeout(5000);
                 connection.setRequestMethod("GET");
                 connection.connect();
-                int statusCode = connection.getResponseCode();
+                statusCode = connection.getResponseCode();
                 Log.i("Status Kodea", "" + statusCode);
                 if (statusCode == 200) {
                     zuzena=true;
                     sb = new StringBuilder();
                     reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    String line;
                     while ((line = reader.readLine()) != null) {
-                        sb.append(line + "\n");
+                        sb.append(line).append("\n");
                     }
                 }
                 connection.disconnect();
-                if (sb!=null)
-                    serverResponse=sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -192,16 +194,19 @@ public class dei_asink extends Activity{
         }
     }
 
-    private class fitxategia_ezabatu extends AsyncTask<String, Void, Void> {
+    private class FitxategiaEzabatu extends AsyncTask<String, Void, Void> {
+        private String fitxategi;
+        private File file;
+        private Boolean ezabatua;
         @Override
         protected Void doInBackground(String... params) {
             try {
-                for (int i=0;i<fnames.length;i++){
-                    String fitxategi = fnames[i];
-                    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fitxategi);
-                    file.delete();
-                    if (!file.exists()) {
-                        globalak.mApi.delete(fitxategi);
+                for (String fname : fnames) {
+                    fitxategi = fname;
+                    file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fitxategi);
+                    ezabatua=file.delete();
+                    if (!file.exists() && ezabatua) {
+                        Globalak.mApi.delete(fitxategi);
                     }
                 }
             } catch (DropboxException e) {
@@ -213,38 +218,37 @@ public class dei_asink extends Activity{
         }
     }
 
-    private class web_deia_amatatu extends AsyncTask<String, Void, Void> {
+    private class WebDeiaAmatatu extends AsyncTask<String, Void, Void> {
+        private StringBuilder sb;
+        private BufferedReader reader;
+        private HttpURLConnection connection;
+        private int statusCode;
+        private String line;
+        private URL url;
         @Override
         protected Void doInBackground(String... params) {
-            StringBuilder sb=null;
-            BufferedReader reader=null;
-            String serverResponse=null;
             try {
-                URL url =null;
-                if (globalak.konexio_konf){
-                    url = new URL("http://"+globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiAmatatu");
+                if (Globalak.konexio_konf){
+                    url = new URL("http://"+ Globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiAmatatu");
                 }else{
-                    url = new URL("http://"+globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiAmatatu");
+                    url = new URL("http://"+ Globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiAmatatu");
                 }
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setConnectTimeout(5000);
                 connection.setRequestMethod("GET");
                 connection.connect();
-                int statusCode = connection.getResponseCode();
+                statusCode = connection.getResponseCode();
                 Log.i("Status Kodea", "" + statusCode);
                 if (statusCode == 200) {
                     zuzena=true;
                     sb = new StringBuilder();
                     reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    String line;
                     while ((line = reader.readLine()) != null) {
-                        sb.append(line + "\n");
+                        sb.append(line).append("\n");
                     }
                 }
                 connection.disconnect();
-                if (sb!=null)
-                    serverResponse=sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -261,40 +265,40 @@ public class dei_asink extends Activity{
         }
     }
 
-    private class web_deia_ezabatu extends AsyncTask<String, Void, Void> {
+    private class WebDeiaEzabatu extends AsyncTask<String, Void, Void> {
+        private String fitxategi;
+        private StringBuilder sb;
+        private BufferedReader reader;
+        private HttpURLConnection connection;
+        private int statusCode;
+        private String line;
+        private URL url;
         @Override
         protected Void doInBackground(String... params) {
-            StringBuilder sb=null;
-            BufferedReader reader=null;
-            String serverResponse=null;
-            for (int i=0;i<fnames.length;i++) {
-                String fitxategi = fnames[i];
+            for (String fname : fnames) {
+                fitxategi = fname;
                 try {
-                    URL url = null;
-                    if (globalak.konexio_konf) {
-                        url = new URL("http://" + globalak.url_intra + "/ZaintzaPi/servlet/ZaintzaPiEzabatu?fitxategia=" +fitxategi);
+                    if (Globalak.konexio_konf) {
+                        url = new URL("http://" + Globalak.url_intra + "/ZaintzaPi/servlet/ZaintzaPiEzabatu?fitxategia=" + fitxategi);
                     } else {
-                        url = new URL("http://" + globalak.url_extra + "/ZaintzaPi/servlet/ZaintzaPiEzabatu?fitxategia=" +fitxategi);
+                        url = new URL("http://" + Globalak.url_extra + "/ZaintzaPi/servlet/ZaintzaPiEzabatu?fitxategia=" + fitxategi);
                     }
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                     connection.setConnectTimeout(5000);
                     connection.setRequestMethod("GET");
                     connection.connect();
-                    int statusCode = connection.getResponseCode();
+                    statusCode = connection.getResponseCode();
                     Log.i("Status Kodea", "" + statusCode);
                     if (statusCode == 200) {
                         zuzena = true;
                         sb = new StringBuilder();
                         reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String line;
                         while ((line = reader.readLine()) != null) {
-                            sb.append(line + "\n");
+                            sb.append(line).append("\n");
                         }
                     }
                     connection.disconnect();
-                    if (sb != null)
-                        serverResponse = sb.toString();
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -312,38 +316,37 @@ public class dei_asink extends Activity{
         }
     }
 
-    private class web_deia_mugimendua extends AsyncTask<String, Void, Void> {
+    private class WebDeiaMugimendua extends AsyncTask<String, Void, Void> {
+        private StringBuilder sb;
+        private BufferedReader reader;
+        private HttpURLConnection connection;
+        private int statusCode;
+        private String line;
+        private URL url;
         @Override
         protected Void doInBackground(String... params) {
-            StringBuilder sb=null;
-            BufferedReader reader=null;
-            String serverResponse=null;
             try {
-                URL url =null;
-                if (globalak.konexio_konf){
-                    url = new URL("http://"+globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiMugimendua");
+                if (Globalak.konexio_konf){
+                    url = new URL("http://"+ Globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiMugimendua");
                 }else{
-                    url = new URL("http://"+globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiMugimendua");
+                    url = new URL("http://"+ Globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiMugimendua");
                 }
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setConnectTimeout(5000);
                 connection.setRequestMethod("GET");
                 connection.connect();
-                int statusCode = connection.getResponseCode();
+                statusCode = connection.getResponseCode();
                 Log.i("Status Kodea", "" + statusCode);
                 if (statusCode == 200) {
                     zuzena=true;
                     sb = new StringBuilder();
                     reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    String line;
                     while ((line = reader.readLine()) != null) {
-                        sb.append(line + "\n");
+                        sb.append(line).append("\n");
                     }
                 }
                 connection.disconnect();
-                if (sb!=null)
-                    serverResponse=sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

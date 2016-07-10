@@ -2,7 +2,8 @@
 <resources>
     <color name="horia">#FFFF50</color>
     <color name="beltza">#000000</color>
-    <color name="zuria">#FFFFFF</color>
+    <color name="zuria">#ffffff</color>
+    <color name="gris_argia">#b4b4b4</color>
     <color name="grisa">#5c5c5c</color>
     <color name="berdea">#67e000</color>
     <color name="berdea_argia">#9dff68</color>

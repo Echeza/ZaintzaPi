@@ -13,11 +13,17 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class lista_laguntzailea extends BaseAdapter implements ListAdapter {
+public class ListaLaguntzailea extends BaseAdapter implements ListAdapter {
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
+    private TextView listItemText;
+    private Button deleteBtn;
+    private LayoutInflater inflater;
+    private View view;
+    private String[] fitxategia;
+    private DeiAsink deia;
 
-    public lista_laguntzailea(ArrayList<String> list, Context context) {
+    public ListaLaguntzailea(ArrayList<String> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -39,32 +45,31 @@ public class lista_laguntzailea extends BaseAdapter implements ListAdapter {
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-        View view = convertView;
+        view = convertView;
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.lista_laguntzailea, null);
         }
-
-        final TextView listItemText = (TextView)view.findViewById(R.id.lerroa);
+        listItemText = (TextView)view.findViewById(R.id.lerroa);
         listItemText.setText(list.get(position));
-        Button deleteBtn = (Button)view.findViewById(R.id.delete_btn);
+        deleteBtn = (Button)view.findViewById(R.id.delete_btn);
         deleteBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                String[] fitxategia= new String[1];
+                fitxategia= new String[1];
                 fitxategia[0]="/"+list.get(position)+".jpg";
-                dei_asink deia = new dei_asink(5, fitxategia);
+                deia = new DeiAsink(5, fitxategia);
                 if (deia.getZuzena()) {
-                    dei_asink deia2 = new dei_asink(3, fitxategia);
-                    if (deia2.getZuzena()) {
+                    deia = new DeiAsink(3, fitxategia);
+                    if (deia.getZuzena()) {
                         list.remove(position);
                         notifyDataSetChanged();
                     }
                 }else{
                     new AlertDialog.Builder(parent.getContext())
-                            .setTitle("Konexioarekin arazoak")
-                            .setMessage("Konproba ezazu ea helbideak eta sarea ondo adierazita dauden.")
-                            .setPositiveButton("Ados", new DialogInterface.OnClickListener() {
+                            .setTitle("Problemas con la conexión!")
+                            .setMessage("Compruebe que las direcciones y la red esten bien configuradas.")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }

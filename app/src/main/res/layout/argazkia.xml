@@ -10,11 +10,16 @@
         android:layout_height="wrap_content"
         android:text="Izenburua"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:gravity="center" />
+        android:gravity="center"
+        android:background="@color/berdea_argia"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="25dp"
+        android:textColor="@color/beltza" />
 
     <gal.zaintzapi.TouchView.TouchImageView
         android:id="@+id/jpgargazkia"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        />
+        android:background="@color/berdea_argia" />
 </LinearLayout>

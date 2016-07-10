@@ -6,18 +6,22 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/berdea_argia">
+
+        <TextView
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="IP interna"
+            android:id="@+id/textIntra"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal" />
+
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <TextView
-                android:padding="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Sare barruko IP-a"
-                android:id="@+id/textIntra"
-                android:textStyle="bold" />
 
         </TableRow>
 
@@ -32,18 +36,19 @@
                 android:id="@+id/editIntra" />
         </TableRow>
 
+        <TextView
+                android:padding="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="IP externa"
+                android:id="@+id/textExtra"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal" />
+
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
-            <TextView
-                    android:padding="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Sare kanpoko IP-a"
-                    android:id="@+id/textExtra"
-                android:textStyle="bold" />
 
         </TableRow>
 
@@ -67,10 +72,11 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gorde aldaketak"
+            android:text="Guardar cambios"
             android:padding="15dp"
             android:id="@+id/btn_gorde"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_state" />
     </LinearLayout>
 </TableRow>

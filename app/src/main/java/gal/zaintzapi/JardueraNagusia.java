@@ -10,6 +10,7 @@ import android.widget.Button;
 public class JardueraNagusia extends Activity {
 
     private Button bttn_saioa_hasi=null;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,15 +20,15 @@ public class JardueraNagusia extends Activity {
         bttn_saioa_hasi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent dropbox_jardueraIntent = new Intent(JardueraNagusia.this, dropbox_jarduera.class);
+                Intent dropbox_jardueraIntent = new Intent(JardueraNagusia.this, DropboxJarduera.class);
                 startActivity(dropbox_jardueraIntent);
             }
         });
-        SharedPreferences settings = getSharedPreferences(globalak.Pref_URL, 0);
-        globalak.url_extra = settings.getString("url_extra", globalak.url_extra);
-        globalak.url_intra = settings.getString("url_intra", globalak.url_intra);
-        globalak.konexio_konf=settings.getBoolean("konexio_konf",globalak.konexio_konf);
-        globalak.mugimendu_konf=settings.getBoolean("mugimendu_konf",globalak.mugimendu_konf);
+        settings = getSharedPreferences(Globalak.Pref_URL, 0);
+        Globalak.url_extra = settings.getString("url_extra", Globalak.url_extra);
+        Globalak.url_intra = settings.getString("url_intra", Globalak.url_intra);
+        Globalak.konexio_konf=settings.getBoolean("konexio_konf", Globalak.konexio_konf);
+        Globalak.mugimendu_konf=settings.getBoolean("mugimendu_konf", Globalak.mugimendu_konf);
 
     }
 

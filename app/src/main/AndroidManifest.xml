@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/zaintzapi"
@@ -12,8 +13,7 @@
         android:theme="@style/CustomActionBarTheme" >
 
         <activity
-            android:name=".JardueraNagusia"
-            android:label="Zaintza Pi">
+            android:name=".JardueraNagusia">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,20 +21,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".dropbox_jarduera"
-            android:label="Menu nagusia" >
+            android:name=".DropboxJarduera"
+            android:label="Zaintza Pi" >
         </activity>
         <activity
-            android:name=".konexioa"
-            android:label="Konexio aukerak" >
+            android:name=".Konexioa"
+            android:label="Opciones de conexión" >
         </activity>
         <activity
-            android:name=".argazkia"
-            android:label="Argazkia" >
+            android:name=".Argazkia">
         </activity>
         <activity
-            android:name=".argazki_zerrenda"
-            android:label="Argazkien Zerrenda" >
+            android:name=".ArgazkiZerrenda">
         </activity>
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
