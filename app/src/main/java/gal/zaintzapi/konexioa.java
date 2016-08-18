@@ -20,21 +20,21 @@ public class Konexioa extends Activity {
         gorde=(Button)findViewById(R.id.btn_gorde);
         intra=(EditText)findViewById(R.id.editIntra);
         extra=(EditText)findViewById(R.id.editExtra);
-        intra.setText(Globalak.url_intra);
-        extra.setText(Globalak.url_extra);
+        intra.setText(Globalak.urlIntra);
+        extra.setText(Globalak.urlExtra);
         gorde.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(intra.getText().toString()!=null){
-                    Globalak.url_intra=intra.getText().toString();
+                    Globalak.urlIntra =intra.getText().toString();
                 }
                 if(extra.getText().toString()!=null){
-                    Globalak.url_extra=extra.getText().toString();
+                    Globalak.urlExtra =extra.getText().toString();
                 }
-                settings = getSharedPreferences(Globalak.Pref_URL, 0);
+                settings = getSharedPreferences(Globalak.prefUrl, 0);
                 editor = settings.edit();
-                editor.putString("url_extra", Globalak.url_extra);
-                editor.putString("url_intra", Globalak.url_intra);
+                editor.putString("urlExtra", Globalak.urlExtra);
+                editor.putString("urlIntra", Globalak.urlIntra);
                 editor.commit();
                 Konexioa.this.finish();
             }

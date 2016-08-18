@@ -157,10 +157,10 @@ public class DeiAsink extends Activity{
         @Override
         protected Void doInBackground(String... params) {
             try {
-                if (Globalak.konexio_konf){
-                    url = new URL("http://"+ Globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
+                if (Globalak.konexioKonf){
+                    url = new URL("http://"+ Globalak.urlIntra +"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
                 }else{
-                    url = new URL("http://"+ Globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
+                    url = new URL("http://"+ Globalak.urlExtra +"/ZaintzaPi/servlet/ZaintzaPiArgazkia");
                 }
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -197,7 +197,7 @@ public class DeiAsink extends Activity{
     private class FitxategiaEzabatu extends AsyncTask<String, Void, Void> {
         private String fitxategi;
         private File file;
-        private Boolean ezabatua;
+        private boolean ezabatua;
         @Override
         protected Void doInBackground(String... params) {
             try {
@@ -228,10 +228,10 @@ public class DeiAsink extends Activity{
         @Override
         protected Void doInBackground(String... params) {
             try {
-                if (Globalak.konexio_konf){
-                    url = new URL("http://"+ Globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiAmatatu");
+                if (Globalak.konexioKonf){
+                    url = new URL("http://"+ Globalak.urlIntra +"/ZaintzaPi/servlet/ZaintzaPiAmatatu");
                 }else{
-                    url = new URL("http://"+ Globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiAmatatu");
+                    url = new URL("http://"+ Globalak.urlExtra +"/ZaintzaPi/servlet/ZaintzaPiAmatatu");
                 }
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -278,10 +278,10 @@ public class DeiAsink extends Activity{
             for (String fname : fnames) {
                 fitxategi = fname;
                 try {
-                    if (Globalak.konexio_konf) {
-                        url = new URL("http://" + Globalak.url_intra + "/ZaintzaPi/servlet/ZaintzaPiEzabatu?fitxategia=" + fitxategi);
+                    if (Globalak.konexioKonf) {
+                        url = new URL("http://" + Globalak.urlIntra + "/ZaintzaPi/servlet/ZaintzaPiEzabatu?fitxategia=" + fitxategi);
                     } else {
-                        url = new URL("http://" + Globalak.url_extra + "/ZaintzaPi/servlet/ZaintzaPiEzabatu?fitxategia=" + fitxategi);
+                        url = new URL("http://" + Globalak.urlExtra + "/ZaintzaPi/servlet/ZaintzaPiEzabatu?fitxategia=" + fitxategi);
                     }
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -326,10 +326,10 @@ public class DeiAsink extends Activity{
         @Override
         protected Void doInBackground(String... params) {
             try {
-                if (Globalak.konexio_konf){
-                    url = new URL("http://"+ Globalak.url_intra+"/ZaintzaPi/servlet/ZaintzaPiMugimendua");
+                if (Globalak.konexioKonf){
+                    url = new URL("http://"+ Globalak.urlIntra +"/ZaintzaPi/servlet/ZaintzaPiMugimendua");
                 }else{
-                    url = new URL("http://"+ Globalak.url_extra+"/ZaintzaPi/servlet/ZaintzaPiMugimendua");
+                    url = new URL("http://"+ Globalak.urlExtra +"/ZaintzaPi/servlet/ZaintzaPiMugimendua");
                 }
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");

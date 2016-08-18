@@ -39,12 +39,12 @@ public class DropboxJarduera extends Activity {
     final static public String DROPBOX_APP_KEY = "2szq959c1bypkwm";
     final static public String DROPBOX_APP_SECRET = "4v8lv8bv5cm9iqp";
     final static public Session.AccessType ACCESS_TYPE = Session.AccessType.DROPBOX;
-    private Button bttn_zerrenda_ikusi;
-    private Button bttn_argazkia_atera;
-    private Switch konexio_aukera=null;
-    private TextView konexio_status=null;
+    private Button bttnZerrendaIkusi;
+    private Button bttnArgazkiaAtera;
+    private Switch konexioAukera =null;
+    private TextView konexioStatus =null;
     private Switch mugimendua=null;
-    private TextView mugimendu_status=null;
+    private TextView mugimenduStatus =null;
     private String accessToken="";
     private String[] fnames = null;
     private AppKeyPair appKeys;
@@ -60,9 +60,9 @@ public class DropboxJarduera extends Activity {
     private int i;
     private Date data;
     private SimpleDateFormat ft;
-    private String momentuko_data;
-    private String[] fitxategi_berria;
-    private String momentuko_izena;
+    private String momentukoData;
+    private String[] fitxategiBerria;
+    private String momentukoIzena;
     private Intent konexioaIntent;
     private int id;
 
@@ -74,14 +74,14 @@ public class DropboxJarduera extends Activity {
         session = new AndroidAuthSession(appKeys);
         Globalak.mApi=new DropboxAPI<AndroidAuthSession>(session);
         Globalak.mApi.getSession().startOAuth2Authentication(DropboxJarduera.this);
-        bttn_zerrenda_ikusi=(Button)findViewById(R.id.bttnDropbox_argazki_zaerrenda);
-        konexio_aukera=(Switch) findViewById(R.id.konexioa);
-        konexio_status = (TextView) findViewById(R.id.konexioStatus);
+        bttnZerrendaIkusi =(Button)findViewById(R.id.bttnDropbox_argazki_zaerrenda);
+        konexioAukera =(Switch) findViewById(R.id.konexioa);
+        konexioStatus = (TextView) findViewById(R.id.konexioStatus);
         mugimendua=(Switch) findViewById(R.id.mugimendua);
-        mugimendu_status = (TextView) findViewById(R.id.mugimendustatus);
-        settings = getSharedPreferences(Globalak.Pref_URL, 0);
+        mugimenduStatus = (TextView) findViewById(R.id.mugimendustatus);
+        settings = getSharedPreferences(Globalak.prefUrl, 0);
         editor = settings.edit();
-        bttn_zerrenda_ikusi.setOnClickListener(new View.OnClickListener() {
+        bttnZerrendaIkusi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 denaJaitsi();
@@ -90,35 +90,35 @@ public class DropboxJarduera extends Activity {
                 }
             }
         });
-        bttn_argazkia_atera=(Button)findViewById(R.id.bttnArgazkia_atera);
-        bttn_argazkia_atera.setOnClickListener(new View.OnClickListener() {
+        bttnArgazkiaAtera =(Button)findViewById(R.id.bttnArgazkia_atera);
+        bttnArgazkiaAtera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 argazkiaAtera();
             }
         });
-        konexio_aukera.setChecked(Globalak.konexio_konf);
-        konexio_aukera.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        konexioAukera.setChecked(Globalak.konexioKonf);
+        konexioAukera.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    konexio_status.setText("Dentro de la red");
-                    Globalak.konexio_konf=true;
-                    editor.putBoolean("konexio_konf", Globalak.konexio_konf);
+                    konexioStatus.setText("Dentro de la red");
+                    Globalak.konexioKonf =true;
+                    editor.putBoolean("konexioKonf", Globalak.konexioKonf);
                 }else{
-                    konexio_status.setText("Fuera de la red");
-                    Globalak.konexio_konf=false;
-                    editor.putBoolean("konexio_konf", Globalak.konexio_konf);
+                    konexioStatus.setText("Fuera de la red");
+                    Globalak.konexioKonf =false;
+                    editor.putBoolean("konexioKonf", Globalak.konexioKonf);
                 }
                 editor.commit();
             }
         });
-        if(konexio_aukera.isChecked()){
-            konexio_status.setText("Dentro de la red");
+        if(konexioAukera.isChecked()){
+            konexioStatus.setText("Dentro de la red");
         }else {
-            konexio_status.setText("Fuera de la red");
+            konexioStatus.setText("Fuera de la red");
         }
-        mugimendua.setChecked(Globalak.mugimendu_konf);
+        mugimendua.setChecked(Globalak.mugimenduKonf);
         mugimendua.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -137,9 +137,9 @@ public class DropboxJarduera extends Activity {
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
                     }else{
-                        mugimendu_status.setText("SISTEMA AUTOMATICO");
-                        Globalak.mugimendu_konf=true;
-                        editor.putBoolean("mugimendu_konf", Globalak.mugimendu_konf);
+                        mugimenduStatus.setText("SISTEMA AUTOMATICO");
+                        Globalak.mugimenduKonf =true;
+                        editor.putBoolean("mugimenduKonf", Globalak.mugimenduKonf);
                     }
                 }else{
                     deia =new DeiAsink(4,null);
@@ -156,18 +156,18 @@ public class DropboxJarduera extends Activity {
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
                     }else{
-                        mugimendu_status.setText("ESKUZKO SISTEMA");
-                        Globalak.mugimendu_konf=false;
-                        editor.putBoolean("mugimendu_konf", Globalak.mugimendu_konf);
+                        mugimenduStatus.setText("SISTEMA MANUAL");
+                        Globalak.mugimenduKonf =false;
+                        editor.putBoolean("mugimenduKonf", Globalak.mugimenduKonf);
                     }
                 }
                 editor.commit();
             }
         });
         if(mugimendua.isChecked()){
-            mugimendu_status.setText("SISTEMA AUTOMATICO");
+            mugimenduStatus.setText("SISTEMA AUTOMATICO");
         }else {
-            mugimendu_status.setText("SISTEMA MANUAL");
+            mugimenduStatus.setText("SISTEMA MANUAL");
         }
     }
 
@@ -177,7 +177,7 @@ public class DropboxJarduera extends Activity {
             try {
                 Globalak.mApi.getSession().finishAuthentication();
                 accessToken = Globalak.mApi.getSession().getOAuth2AccessToken();
-                new notifikazioBilaketa().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new NotifikazioBilaketa().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             } catch (IllegalStateException e) {
                 Log.i("DbAuthLog", "Error authenticating", e);
             }
@@ -217,19 +217,19 @@ public class DropboxJarduera extends Activity {
         data = new Date();
         ft = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
         ft.setTimeZone(TimeZone.getTimeZone("gmt"));
-        momentuko_data = ft.format(data);
+        momentukoData = ft.format(data);
         deia = new DeiAsink(2, null);
         if (deia.getZuzena()) {
             denaJaitsi();
-            fitxategi_berria = new String[1];
+            fitxategiBerria = new String[1];
             for (int i = 0; i < fnames.length; i++) {
-                momentuko_izena = fnames[i].split("/")[1].split(".jpg")[0];
-                if (momentuko_izena.compareTo(momentuko_data) >= 0) {
-                    fitxategi_berria[0] = fnames[i];
-                    deia = new DeiAsink(1, fitxategi_berria);
+                momentukoIzena = fnames[i].split("/")[1].split(".jpg")[0];
+                if (momentukoIzena.compareTo(momentukoData) >= 0) {
+                    fitxategiBerria[0] = fnames[i];
+                    deia = new DeiAsink(1, fitxategiBerria);
                     if (deia.getZuzena()) {
                         argazkiaIntent = new Intent(DropboxJarduera.this, Argazkia.class);
-                        argazkiaIntent.putExtra("izena", fitxategi_berria[0]);
+                        argazkiaIntent.putExtra("izena", fitxategiBerria[0]);
                         startActivity(argazkiaIntent);
                     }
                 }
@@ -264,9 +264,9 @@ public class DropboxJarduera extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class notifikazioBilaketa extends AsyncTask<String, Void, Object> {
+    private class NotifikazioBilaketa extends AsyncTask<String, Void, Object> {
         private String cursor = null;
-        private String fitxategi_berria;
+        private String fitxategiBerria;
         private DropboxAPI.DeltaPage<DropboxAPI.Entry> result;
         private Intent intent;
         private File file;
@@ -284,12 +284,12 @@ public class DropboxJarduera extends Activity {
                             if (result.entries.size()> Globalak.fitxategiKantitatea){
                                 Globalak.fitxategiKantitatea = result.entries.size();
                                 intent = new Intent(DropboxJarduera.this, Argazkia.class);
-                                fitxategi_berria=result.entries.get(result.entries.size()-1).lcPath;
-                                file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fitxategi_berria);
+                                fitxategiBerria =result.entries.get(result.entries.size()-1).lcPath;
+                                file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fitxategiBerria);
                                 if (!file.exists()) {
                                     outputStream = new FileOutputStream(file);
-                                    Globalak.mApi.getFile(fitxategi_berria, null, outputStream, null);
-                                    intent.putExtra("izena", fitxategi_berria);
+                                    Globalak.mApi.getFile(fitxategiBerria, null, outputStream, null);
+                                    intent.putExtra("izena", fitxategiBerria);
                                     pIntent = PendingIntent.getActivity(DropboxJarduera.this, (int) System.currentTimeMillis(), intent, 0);
                                     n = new Notification.Builder(DropboxJarduera.this)
                                             .setContentTitle("Zaintza Pi")

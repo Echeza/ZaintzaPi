@@ -24,11 +24,11 @@ public class JardueraNagusia extends Activity {
                 startActivity(dropbox_jardueraIntent);
             }
         });
-        settings = getSharedPreferences(Globalak.Pref_URL, 0);
-        Globalak.url_extra = settings.getString("url_extra", Globalak.url_extra);
-        Globalak.url_intra = settings.getString("url_intra", Globalak.url_intra);
-        Globalak.konexio_konf=settings.getBoolean("konexio_konf", Globalak.konexio_konf);
-        Globalak.mugimendu_konf=settings.getBoolean("mugimendu_konf", Globalak.mugimendu_konf);
+        settings = getSharedPreferences(Globalak.prefUrl, 0);
+        Globalak.urlExtra = settings.getString("urlExtra", Globalak.urlExtra);
+        Globalak.urlIntra = settings.getString("urlIntra", Globalak.urlIntra);
+        Globalak.konexioKonf =settings.getBoolean("konexioKonf", Globalak.konexioKonf);
+        Globalak.mugimenduKonf =settings.getBoolean("mugimenduKonf", Globalak.mugimenduKonf);
 
     }
 

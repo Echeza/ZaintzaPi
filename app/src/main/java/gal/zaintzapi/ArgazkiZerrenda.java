@@ -15,7 +15,7 @@ public class ArgazkiZerrenda extends Activity{
     private ListView zerrenda;
     private Bundle extras;
     private String[] izenak;
-    private ArrayList<String> izenak_bistarako;
+    private ArrayList<String> izenakBistarako;
     private ListaLaguntzailea adapter;
     private Intent argazkiaIntent;
 
@@ -25,11 +25,11 @@ public class ArgazkiZerrenda extends Activity{
         zerrenda = (ListView) findViewById(R.id.argazki_zerrenda);
         extras = ArgazkiZerrenda.this.getIntent().getExtras();
         izenak = extras.getStringArray("izenak");
-        izenak_bistarako =new ArrayList<>();
+        izenakBistarako =new ArrayList<>();
         for(int i =0;i<izenak.length;i++){
-            izenak_bistarako.add(i,izenak[i].split("/")[1].split(".jpg")[0]);
+            izenakBistarako.add(i,izenak[i].split("/")[1].split(".jpg")[0]);
         }
-        adapter = new ListaLaguntzailea(izenak_bistarako, this);
+        adapter = new ListaLaguntzailea(izenakBistarako, this);
         zerrenda.setAdapter(adapter);
         zerrenda.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
